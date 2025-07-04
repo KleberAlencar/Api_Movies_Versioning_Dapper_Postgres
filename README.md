@@ -7,10 +7,12 @@ This project is a minimal API for managing movies, built with .NET 8 and C#. It 
 - **.NET 8**: Framework for building the API.
 - **Minimal APIs**: For lightweight, fast API endpoint definitions.
 - **API Versioning**: To manage different versions of the API.
+- **Health Checks**: For monitoring the health of the API.
 - **OpenAPI/Swagger**: For API documentation and testing.
 - **Dependency Injection**: For managing service lifetimes and dependencies.
 - **Custom Authentication Extensions**: For extracting user information from HTTP context.
 - **Cancellation Tokens**: For graceful request cancellation.
+- **DBConnection Factory**: For managing database connections.
 - **Dapper**: For data access, providing a simple way to map database results to C# objects.
 - **PostgreSQL**: Database for storing movie data via docker compose.
 - **FluentValidation**: For validating incoming requests.
