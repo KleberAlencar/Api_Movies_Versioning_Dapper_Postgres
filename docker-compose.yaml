@@ -1,0 +1,12 @@
+﻿services:
+  
+  db:
+    image: postgres:latest
+    restart: always
+    container_name: movies_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: movies
+    ports:
+      - "5432:5432"
