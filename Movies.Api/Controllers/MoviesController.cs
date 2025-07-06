@@ -24,7 +24,7 @@ public class MoviesController : ControllerBase
         _outputCacheStore = outputCacheStore;
     }
 
-    [Authorize(AuthConstants.TruestMemberPolicyName)]
+    [Authorize(AuthConstants.TrustedMemberPolicyName)]
     [HttpPost(ApiEndpoint.Movies.Create)]
     [ProducesResponseType(typeof(MovieResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ValidationFailureResponse), StatusCodes.Status400BadRequest)]
@@ -33,7 +33,8 @@ public class MoviesController : ControllerBase
         var movie = request.MapToMovie();
         await _movieService.CreateAsync(movie, cancellationToken);
         await _outputCacheStore.EvictByTagAsync("movies", cancellationToken);
-        return CreatedAtAction(nameof(Get), new { idOrSlug = movie.Id }, movie);
+        var response = movie.MapToResponse();
+        return CreatedAtAction(nameof(Get), new { idOrSlug = movie.Id }, response);
     }
 
     [HttpGet(ApiEndpoint.Movies.Get)]
@@ -69,11 +70,14 @@ public class MoviesController : ControllerBase
         var movies = await _movieService.GetAllAsync(options, cancellationToken);
         var moviesCount = await _movieService.GetCountAsync(options.Title, options.YearOfRelease, cancellationToken);
 
-        var response = movies.MapToResponse(request.Page, request.PageSize, moviesCount);
+        var response = movies.MapToResponse(
+            request.Page.GetValueOrDefault(PagedRequest.DefaultPage), 
+            request.PageSize.GetValueOrDefault(PagedRequest.DefaultPageSize), 
+            moviesCount);
         return Ok(response);
     }
 
-    [Authorize(AuthConstants.TruestMemberPolicyName)]
+    [Authorize(AuthConstants.TrustedMemberPolicyName)]
     [HttpPut(ApiEndpoint.Movies.Update)]
     [ProducesResponseType(typeof(MovieResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

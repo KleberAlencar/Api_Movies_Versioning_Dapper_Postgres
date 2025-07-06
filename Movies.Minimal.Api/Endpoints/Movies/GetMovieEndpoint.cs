@@ -1,4 +1,5 @@
-﻿using Movies.Minimal.Api.Mappings;
+﻿using Movies.Contracts.Responses;
+using Movies.Minimal.Api.Mappings;
 using Movies.Minimal.Api.Auth.Extensions;
 using Movies.Application.Services.Abstractions;
 
@@ -11,8 +12,10 @@ public static class GetMovieEndpoint
     public static IEndpointRouteBuilder MapGetMovie(this IEndpointRouteBuilder app)
     {
         app.MapGet(ApiEndpoint.Movies.Get, async (
-            string idOrSlug, IMovieService movieService, 
-            HttpContext context, CancellationToken cancellationToken) =>
+            string idOrSlug, 
+            IMovieService movieService, 
+            HttpContext context, 
+            CancellationToken cancellationToken) =>
             {
                 var userId = context.GetUserId();
 
@@ -28,7 +31,11 @@ public static class GetMovieEndpoint
                 return TypedResults.Ok(response);               
                 
                 
-            });
+            }).WithName(Name)
+            .Produces<MovieResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound)
+            .CacheOutput("MovieCache");
+        
         return app;
     }
 }
