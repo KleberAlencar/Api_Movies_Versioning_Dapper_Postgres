@@ -1,6 +1,7 @@
 ﻿using Movies.Contracts.Responses;
 using Movies.Minimal.Api.Auth.Extensions;
 using Movies.Application.Services.Abstractions;
+using Movies.Minimal.Api.Constants;
 
 namespace Movies.Minimal.Api.Endpoints.Ratings;
 

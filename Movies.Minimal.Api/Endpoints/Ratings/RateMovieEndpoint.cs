@@ -10,7 +10,7 @@ public static class RateMovieEndpoint
 
     public static IEndpointRouteBuilder MapRateMovie(this IEndpointRouteBuilder app)
     {
-        app.MapGet(ApiEndpoint.Ratings.GetUserRatings, async (
+        app.MapPut(ApiEndpoint.Ratings.GetUserRatings, async (
             Guid id,
             RateMovieRequest request,
             HttpContext context,

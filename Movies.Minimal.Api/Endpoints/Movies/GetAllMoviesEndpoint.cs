@@ -1,8 +1,8 @@
 ﻿using Movies.Contracts.Requests;
+using Movies.Contracts.Responses;
 using Movies.Minimal.Api.Mappings;
 using Movies.Minimal.Api.Auth.Extensions;
 using Movies.Application.Services.Abstractions;
-using Movies.Contracts.Responses;
 
 namespace Movies.Minimal.Api.Endpoints.Movies;
 
@@ -13,7 +13,7 @@ public static class GetAllMoviesEndpoint
     public static IEndpointRouteBuilder MapGetAllMovies(this IEndpointRouteBuilder app)
     {
         app.MapGet(ApiEndpoint.Movies.GetAll, async (
-                GetAllMoviesRequest request,
+                [AsParameters] GetAllMoviesRequest request,
                 IMovieService movieService,
                 HttpContext context,
                 CancellationToken cancellationToken) =>
@@ -29,8 +29,6 @@ public static class GetAllMoviesEndpoint
                     request.PageSize.GetValueOrDefault(PagedRequest.DefaultPageSize),
                     moviesCount);
                 return TypedResults.Ok(response);
-
-
             }).WithName(Name)
             .Produces<MoviesResponse>(StatusCodes.Status200OK)
             .CacheOutput("MovieCache");            

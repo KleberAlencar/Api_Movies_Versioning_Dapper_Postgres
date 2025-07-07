@@ -23,7 +23,7 @@ public static class CreateMovieEndpoint
             await movieService.CreateAsync(movie, cancellationToken);
             await outputCacheStore.EvictByTagAsync("movies", cancellationToken);
             var response = movie.MapToResponse();
-            return TypedResults.CreatedAtRoute(response, GetMovieEndpoint.Name, new { isOrSlug = response.Id });
+            return TypedResults.CreatedAtRoute(response, GetMovieEndpoint.Name, new { isOrSlug = movie.Id });
         })
         .WithName(Name)
         .Produces<MovieResponse>(StatusCodes.Status201Created)

@@ -23,7 +23,7 @@ public static class DeleteMovieEndpoint
             }
 
             await outputCacheStore.EvictByTagAsync("movies", cancellationToken);
-            return TypedResults.Ok();
+            return Results.Ok();
         })
         .WithName(Name)
         .Produces(StatusCodes.Status200OK)

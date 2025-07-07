@@ -66,7 +66,7 @@ builder.Services.AddOutputCache(x =>
 //builder.Services.AddControllers(); -> moved to Minimal APIs
 
 builder.Services.AddHealthChecks()
-    .AddCheck<DatabaseHealthCheck>("Database");
+    .AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.Name);
 
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 builder.Services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
